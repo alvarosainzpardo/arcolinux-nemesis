@@ -1,7 +1,29 @@
 #!/bin/bash
 #set -e
+##################################################################################################################################
+# Author    : Erik Dubois
+# Website   : https://www.erikdubois.be
+# Youtube   : https://youtube.com/erikdubois
+##################################################################################################################################
 #
-set -uo pipefail  # Do not use -e, we want to continue on error
+#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
+#
+##################################################################################################################################
+#tput setaf 0 = black
+#tput setaf 1 = red
+#tput setaf 2 = green
+#tput setaf 3 = yellow
+#tput setaf 4 = dark blue
+#tput setaf 5 = purple
+#tput setaf 6 = cyan
+#tput setaf 7 = gray
+#tput setaf 8 = light blue
+
+#end colors
+#tput sgr0
+##################################################################################################################################
+
+set -uo pipefail  # Do not use set -e, we want to continue on error
 
 # Trap all ERR conditions and call the handler
 trap 'on_error $LINENO "$BASH_COMMAND"' ERR
@@ -25,35 +47,6 @@ on_error() {
     sleep 10
 }
 
-##################################################################################################################################
-# Author    : Erik Dubois
-# Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
-##################################################################################################################################
-#
-#   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
-#
-##################################################################################################################################
-#tput setaf 0 = black
-#tput setaf 1 = red
-#tput setaf 2 = green
-#tput setaf 3 = yellow
-#tput setaf 4 = dark blue
-#tput setaf 5 = purple
-#tput setaf 6 = cyan
-#tput setaf 7 = gray
-#tput setaf 8 = light blue
-
-#end colors
-#tput sgr0
-##################################################################################################################################
 
 #networkmanager issue
 #nmcli connection modify Wired\ connection\ 1 ipv6.method "disabled"
@@ -64,6 +57,11 @@ installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
 ##################################################################################################################################
 
 # set DEBUG to true to be able to analyze the scripts file per file
+#
+# works on Bash not Fish
+# sudo chsh -s /usr/bin/bash erik
+# logout and login to change from zsh or fish to bash
+
 export DEBUG=false
 
 ##################################################################################################################################
@@ -120,6 +118,11 @@ read response
 
 if [[ "$response" == [yY] ]]; then
     touch /tmp/install-chadwm
+    for pkg in arcolinux-chadwm-pacman-hook-git arcolinux-chadwm-git; do
+        if pacman -Q "$pkg" &>/dev/null; then
+            sudo pacman -R --noconfirm "$pkg"
+        fi
+    done
 fi
 
 ##################################################################################################################################
@@ -130,9 +133,9 @@ if ! grep -q -e "Manjaro" -e "Artix" /etc/os-release; then
   echo
 echo "## Best Arch Linux servers worldwide from arcolinux-nemesis
 
-Server = https://geo.mirror.pkgbuild.com/\$repo/os/\$arch
 Server = http://mirror.rackspace.com/archlinux/\$repo/os/\$arch
 Server = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch
+Server = https://geo.mirror.pkgbuild.com/\$repo/os/\$arch
 Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch
 Server = http://mirror.osbeck.com/archlinux/\$repo/os/\$arch
 Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"  | sudo tee /etc/pacman.d/mirrorlist
@@ -146,28 +149,7 @@ Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"  | sudo tee /etc
     echo  
 fi
 
-echo
-tput setaf 2
-echo "################################################################################"
-echo "Installing Chaotic keyring and Chaotic mirrorlist"
-echo "################################################################################"
-tput sgr0
-echo  
-
-# Installing chaotic-aur keys and mirrors
-pkg_dir="packages"
-
-# Ensure directory exists
-if [[ ! -d "$pkg_dir" ]]; then
-    echo "Directory not found: $pkg_dir"
-    exit 1
-fi
-
-for pkg in "$pkg_dir"/*.pkg.tar.zst; do
-    if [[ -e "$pkg" ]]; then
-        sudo pacman -U --noconfirm "$pkg"
-    fi
-done
+# order is important - dependencies
 
 # personal pacman.conf for Erik Dubois
 if [[ ! -f /etc/pacman.conf.nemesis ]]; then
@@ -195,13 +177,68 @@ fi
 sudo cp -v pacman.conf /etc/pacman.conf
 sudo cp -v pacman.conf /etc/pacman.conf.edu
 
-# only for ArchBang/Manjaro/Garuda/Archcraft
+echo
+tput setaf 3
+echo "########################################################################"
+echo "######## Removing the Arch Linux Tweak Tool"
+echo "######## Removing arcolinux-keyring"
+echo "######## Removing arcolinux-mirrorlist-git"
+echo "########################################################################"
+tput sgr0
+echo
+
+for pkg in \
+  archlinux-tweak-tool-git \
+  archlinux-tweak-tool-dev-git \
+  arcolinux-keyring \
+  arcolinux-mirrorlist-git; do
+  if pacman -Q "$pkg" &>/dev/null; then
+    sudo pacman -R --noconfirm "$pkg"
+  fi
+done
+
+echo
+tput setaf 2
+echo "################################################################################"
+echo "Installing Chaotic keyring and Chaotic mirrorlist"
+echo "################################################################################"
+tput sgr0
+echo  
+
+# Installing chaotic-aur keys and mirrors
+pkg_dir="packages"
+
+# Ensure directory exists
+if [[ ! -d "$pkg_dir" ]]; then
+    echo "Directory not found: $pkg_dir"
+    exit 1
+fi
+
+# Install each package
+for pkg in "$pkg_dir"/*.pkg.tar.zst; do
+    if [[ -f "$pkg" ]]; then
+        echo "Installing: $pkg"
+        sudo pacman -U --noconfirm "$pkg"
+    fi
+done
+
+echo
+tput setaf 2
+echo "################################################################################"
+echo "Updating the system - sudo pacman -Syyu - before 700-intervention"
+echo "################################################################################"
+tput sgr0
+echo
+
+sudo pacman -Syyu --noconfirm
+
+# only for ArchBang/Manjaro/Garuda/Archcraft/...
 sh 700-intervention*
 
 echo
 tput setaf 2
 echo "################################################################################"
-echo "Updating the system - sudo pacman -Syyu"
+echo "Updating the system - sudo pacman -Syyu - after 700-intervention"
 echo "################################################################################"
 tput sgr0
 echo

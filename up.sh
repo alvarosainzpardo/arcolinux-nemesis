@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -43,9 +36,15 @@ rm /home/erik/DATA/arcolinux-nemesis/packages/*
 
 pkgdir=/var/cache/pacman/pkg
 target=/home/erik/DATA/arcolinux-nemesis/packages
+targetrepo=/home/erik/DATA/EDU/nemesis_repo/x86_64
 
-cp "$pkgdir"/chaotic-keyring*-*-*.pkg.tar.zst "$target"/
-cp "$pkgdir"/chaotic-mirrorlist*-*-*.pkg.tar.zst "$target"/
+echo "## Copying chaotic packages"
+
+cp -v "$pkgdir"/chaotic-keyring*-*-*.pkg.tar.zst "$target"/
+cp -v "$pkgdir"/chaotic-mirrorlist*-*-*.pkg.tar.zst "$target"/
+
+cp -v "$pkgdir"/chaotic-keyring*-*-*.pkg.tar.zst "$targetrepo"/
+cp -v "$pkgdir"/chaotic-mirrorlist*-*-*.pkg.tar.zst "$targetrepo"/
 
 rm $workdir/mirrorlist
 touch $workdir/mirrorlist

@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -89,30 +82,25 @@ fi
 
 sudo pacman -S --noconfirm upd72020x-fw
 
-# removing all plasma packages whenever possible
 if [ -f /usr/share/wayland-sessions/plasma.desktop ]; then
-  sudo pacman -Rs --noconfirm arcolinux-plasma-keybindings-git
-  sudo pacman -Rs --noconfirm arcolinux-plasma-servicemenus-git
-  sudo pacman -Rs --noconfirm arcolinux-plasma-theme-candy-beauty-arc-dark-git
-  sudo pacman -Rs --noconfirm arcolinux-plasma-theme-candy-beauty-nordic-git
-  sudo pacman -Rs --noconfirm arcolinux-gtk-surfn-plasma-dark-git
+  for pkg in \
+    arcolinux-plasma-keybindings-git \
+    arcolinux-plasma-servicemenus-git \
+    arcolinux-plasma-theme-candy-beauty-arc-dark-git \
+    arcolinux-plasma-theme-candy-beauty-nordic-git \
+    arcolinux-gtk-surfn-plasma-dark-git; do
+
+    if pacman -Q "$pkg" &>/dev/null; then
+      sudo pacman -R --noconfirm "$pkg"
+    fi
+
+  done
 fi
 
-# removing all conflicting packages with edu-dot-files-git
-if [ -f /etc/dev-rel ]; then
-  if grep -q "arco" /etc/dev-rel; then
-    sudo pacman -R --noconfirm arcolinux-bin-git
-    sudo pacman -R --noconfirm arcolinux-system-config-git
-    sudo pacman -R --noconfirm arcolinux-bootloader-systemd-boot-git
-    sudo pacman -R --noconfirm arcolinux-config-all-desktops-git
-    sudo pacman -R --noconfirm arcolinux-alacritty-git
-    sudo pacman -R --noconfirm arcolinux-btop-git
-    sudo pacman -R --noconfirm arcolinux-gtk-surfn-arc-git
-    sudo pacman -R --noconfirm arcolinux-paru-git
-    sudo pacman -R --noconfirm arcolinux-qt5-git
-  fi
-fi
 
+# removing all plasma packages whenever possible
+
+sudo pacman -S --noconfirm --needed archlinux-tweak-tool-git
 sudo pacman -S --noconfirm --needed edu-dot-files-git
 sudo pacman -S --noconfirm --needed arc-gtk-theme
 sudo pacman -S --noconfirm --needed archlinux-logout-git

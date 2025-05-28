@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -42,6 +35,37 @@ if [ "$DEBUG" = true ]; then
 fi
 
 ##################################################################################################################################
+
+if grep -q "artix" /etc/os-release; then
+
+  echo
+  tput setaf 2
+  echo "########################################################################"
+  echo "################### We are on Artix"
+  echo "########################################################################"
+  tput sgr0
+  echo
+
+  # putting back the original pacman.conf
+  sudo cp -v /etc/pacman.conf.nemesis /etc/pacman.conf
+
+# Define the lines to append
+config_block="
+[nemesis_repo]
+SigLevel = Never
+Server = https://erikdubois.github.io/\$repo/\$arch
+
+[chaotic-aur]
+SigLevel = Required DatabaseOptional
+Include = /etc/pacman.d/chaotic-mirrorlist
+"
+
+  # Append to /etc/pacman.conf
+  echo "$config_block" | sudo tee -a /etc/pacman.conf > /dev/null
+
+  echo "Repositories (chaotic/nemesis) added to /etc/pacman.conf"
+
+fi
 
 if grep -q "rebornos" /etc/os-release; then
 

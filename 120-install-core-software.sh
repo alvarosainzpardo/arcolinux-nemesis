@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -41,6 +34,8 @@ if [ "$DEBUG" = true ]; then
     echo
 fi
 
+##################################################################################################################################
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -57,11 +52,28 @@ fi
 if [ ! -f /usr/share/wayland-sessions/plasma.desktop ] && \
    [ ! -f /usr/share/xsessions/plasma.desktop ]; then
     echo "Not on Plasma. Replacing sddm with sddm-git..."
-    sudo pacman -R --noconfirm sddm || echo "sddm not installed"
-    sudo pacman -S --noconfirm --needed sddm-git
+    
+    # Only remove if installed, suppress errors
+    if pacman -Q sddm &>/dev/null; then
+        sudo pacman -R --noconfirm sddm &>/dev/null
+    fi
+
+    # Install sddm-git if needed, suppress errors
+    sudo pacman -S --noconfirm --needed sddm-git &>/dev/null
 else
     echo "Plasma detected. Keeping sddm."
 fi
+
+
+
+for pkg in simplescreenrecorder simplescreenrecorder-git; do
+    if pacman -Q "$pkg" &>/dev/null; then
+        echo "Removing $pkg..."
+        sudo pacman -Rns --noconfirm "$pkg" &>/dev/null
+    fi
+done
+
+sudo pacman -S --noconfirm --needed simplescreenrecorder-qt6-git
 
 
 # All the software below will be installed on all desktops except on Plasma
@@ -88,6 +100,11 @@ fi
 
 # All the software below will be installed on all desktops
 
+sudo pacman -S --noconfirm --needed fastfetch-git
+sudo pacman -S --noconfirm --needed neofetch-git
+sudo pacman -S --noconfirm --needed yay-git
+sudo pacman -S --noconfirm --needed paru-git
+
 sudo pacman -S --noconfirm --needed adobe-source-sans-fonts
 sudo pacman -S --noconfirm --needed aic94xx-firmware
 sudo pacman -S --noconfirm --needed archlinux-tools
@@ -113,7 +130,6 @@ fi
 sudo pacman -S --noconfirm --needed expac
 sudo pacman -S --noconfirm --needed fakeroot
 sudo pacman -S --noconfirm --needed feh
-sudo pacman -S --noconfirm --needed fastfetch-git
 sudo pacman -S --noconfirm --needed file-roller
 sudo pacman -S --noconfirm --needed firefox
 sudo pacman -S --noconfirm --needed fish
@@ -146,14 +162,12 @@ sudo pacman -S --noconfirm --needed micro
 sudo pacman -S --noconfirm --needed mintstick
 sudo pacman -S --noconfirm --needed most
 sudo pacman -S --noconfirm --needed namcap
-sudo pacman -S --noconfirm --needed neofetch-git
 sudo pacman -S --noconfirm --needed nomacs
 sudo pacman -S --noconfirm --needed noto-fonts
 sudo pacman -S --noconfirm --needed ntp
 sudo pacman -S --noconfirm --needed nss-mdns
 sudo pacman -S --noconfirm --needed oh-my-zsh-git
 sudo pacman -S --noconfirm --needed pacmanlogviewer
-sudo pacman -S --noconfirm --needed paru-git
 sudo pacman -S --noconfirm --needed polkit-gnome
 sudo pacman -S --noconfirm --needed python-pylint
 sudo pacman -S --noconfirm --needed python-pywal
@@ -163,7 +177,6 @@ sudo pacman -S --noconfirm --needed rate-mirrors
 sudo pacman -S --noconfirm --needed ripgrep
 sudo pacman -S --noconfirm --needed rsync
 sudo pacman -S --noconfirm --needed scrot
-sudo pacman -S --noconfirm --needed simplescreenrecorder-qt6-git
 sudo pacman -S --noconfirm --needed smartmontools
 sudo pacman -S --noconfirm --needed speedtest-cli
 sudo pacman -S --noconfirm --needed spotify
@@ -197,7 +210,6 @@ sudo pacman -S --noconfirm --needed wd719x-firmware
 sudo pacman -S --noconfirm --needed wget
 sudo pacman -S --noconfirm --needed xdg-user-dirs
 sudo pacman -S --noconfirm --needed yad
-sudo pacman -S --noconfirm --needed yay-git
 sudo pacman -S --noconfirm --needed zsh
 sudo pacman -S --noconfirm --needed zsh-completions
 sudo pacman -S --noconfirm --needed zsh-syntax-highlighting

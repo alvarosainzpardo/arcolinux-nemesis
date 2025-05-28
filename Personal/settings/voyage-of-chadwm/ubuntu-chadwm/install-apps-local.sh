@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -31,6 +24,19 @@ installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
 
 ##################################################################################################################################
 
+if [ "$DEBUG" = true ]; then
+    echo
+    echo "------------------------------------------------------------"
+    echo "Running $(basename $0)"
+    echo "------------------------------------------------------------"
+    echo
+    echo "Debug mode is on. Press Enter to continue..."
+    read dummy
+    echo
+fi
+
+##################################################################################################################################
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -42,7 +48,7 @@ echo
 #if you want to build it you need debhelper and gettext
 #rest is on the github of mintstick or use our script or our package
 #sudo apt install -y ./packages/mintstick_1.6.2_all.deb
-sudo apt install -y mintstick
+sudo apt install -y mintstick python3-unidecode
 
 #sudo apt install -y ./packages/bat_0.24.0_amd64.deb
 sudo apt install -y bat

@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -53,32 +46,33 @@ echo "################### AUR from folder - Software to install"
 echo "########################################################################"
 tput sgr0
 echo
+if ! grep -q "artix" /etc/os-release; then
+	result=$(systemd-detect-virt)
 
-result=$(systemd-detect-virt)
+	if [ $result = "none" ];then
 
-if [ $result = "none" ];then
+		echo
+		tput setaf 2
+		echo "########################################################################"
+		echo "####### Installing VirtualBox"
+		echo "########################################################################"
+		tput sgr0
+		echo	
 
-	echo
-	tput setaf 2
-	echo "########################################################################"
-	echo "####### Installing VirtualBox"
-	echo "########################################################################"
-	tput sgr0
-	echo	
+		sh AUR/install-virtualbox-for-linux.sh	
 
-	sh AUR/install-virtualbox-for-linux.sh	
-
-else
+	else
 
 
-	echo
-	tput setaf 3
-	echo "########################################################################"
-	echo "### You are on a virtual machine - skipping VirtualBox"
-	echo "########################################################################"
-	tput sgr0
-	echo
+		echo
+		tput setaf 3
+		echo "########################################################################"
+		echo "### You are on a virtual machine - skipping VirtualBox"
+		echo "########################################################################"
+		tput sgr0
+		echo
 
+	fi
 fi
 
 echo

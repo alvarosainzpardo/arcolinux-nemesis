@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -31,6 +24,19 @@ installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
 
 ##################################################################################################################################
 
+if [ "$DEBUG" = true ]; then
+    echo
+    echo "------------------------------------------------------------"
+    echo "Running $(basename $0)"
+    echo "------------------------------------------------------------"
+    echo
+    echo "Debug mode is on. Press Enter to continue..."
+    read dummy
+    echo
+fi
+
+##################################################################################################################################
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -47,18 +53,27 @@ echo "########################################################################"
 tput sgr0
 echo
 # https://snapcraft.io/docs/installing-snap-on-linux-mint
-sudo rm /etc/apt/preferences.d/nosnap.pref
+
+FILE=/etc/apt/preferences.d/nosnap.pref
+
+if [ -f "$FILE" ]; then
+    echo "Removing $FILE..."
+    sudo rm "$FILE"
+else
+    echo "$FILE does not exist. Skipping."
+fi
+
 sudo apt install -y snapd
 
 # installing software
 sudo snap install brave --classic
-sudo snap install colorwall --classic
+#sudo snap install colorwall --classic
 sudo snap install code --classic
-sudo snap install discord --classic
-sudo snap install gitkraken --classic
+#sudo snap install discord --classic
+#sudo snap install gitkraken --classic
 sudo snap install opera --classic
 sudo snap install spotify --classic
-sudo snap install telegram-desktop --classic
+#sudo snap install telegram-desktop --classic
 sudo snap install vivaldi --classic
 
 echo

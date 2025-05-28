@@ -3,14 +3,7 @@
 ##################################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
-# Website   : https://www.alci.online
-# Website   : https://www.ariser.eu
-# Website   : https://www.arcolinux.info
-# Website   : https://www.arcolinux.com
-# Website   : https://www.arcolinuxd.com
-# Website   : https://www.arcolinuxb.com
-# Website   : https://www.arcolinuxiso.com
-# Website   : https://www.arcolinuxforum.com
+# Youtube   : https://youtube.com/erikdubois
 ##################################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
@@ -25,6 +18,10 @@
 #tput setaf 6 = cyan
 #tput setaf 7 = gray
 #tput setaf 8 = light blue
+##################################################################################################################################
+
+installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
+
 ##################################################################################################################################
 
 if [ "$DEBUG" = true ]; then
@@ -47,7 +44,7 @@ remove_if_installed() {
         if [ -n "$matches" ]; then
             for pkg in $matches; do
                 echo "Removing package: $pkg"
-                sudo pacman -Rs --noconfirm "$pkg"
+                sudo pacman -R --noconfirm "$pkg"
             done
         else
             echo "No packages matching '$pattern' are installed."
@@ -91,10 +88,14 @@ echo "########################################################################"
 tput sgr0
 echo
 
-if ! systemd-detect-virt | grep -q "oracle"; then
-  if pacman -Qi xf86-video-vmware &> /dev/null; then
-    sudo pacman -Rs xf86-video-vmware --noconfirm
+if command -v systemd-detect-virt &> /dev/null; then
+
+  if ! systemd-detect-virt | grep -q "oracle"; then
+    if pacman -Qi xf86-video-vmware &> /dev/null; then
+      sudo pacman -Rs xf86-video-vmware --noconfirm
+    fi
   fi
+
 fi
 
 remove_if_installed rofi-lbonn-wayland
@@ -125,23 +126,6 @@ if [[ -f /etc/dev-rel ]]; then
   echo
   sh get-me-started
 
-  # order is important - dependencies
-  
-  echo
-  tput setaf 3
-  echo "########################################################################"
-  echo "######## Removing the Arch Linux Tweak Tool"
-  echo "######## Removing arcolinux-keyring"
-  echo "######## Removing arcolinux-mirrorlist-git"
-  echo "########################################################################"
-  tput sgr0
-  echo
-
-  remove_if_installed archlinux-tweak-tool-git
-
-  remove_if_installed arcolinux-keyring
-  remove_if_installed arcolinux-mirrorlist-git
-
   echo
   tput setaf 3
   echo "########################################################################"
@@ -151,40 +135,74 @@ if [[ -f /etc/dev-rel ]]; then
   echo
 
   remove_if_installed arcolinux-pipemenus-git
+  remove_if_installed arcolinux-meta-sddm-themes
 
   remove_if_installed a-candy-beauty-icon-theme-git
   remove_if_installed adobe-source-han-sans-cn-fonts
   remove_if_installed adobe-source-han-sans-jp-fonts
   remove_if_installed adobe-source-han-sans-kr-fonts
   remove_if_installed archlinux-kernel-manager
+  remove_if_installed arcolinux-alacritty-git
   remove_if_installed arcolinux-app-glade-git
   remove_if_installed arcolinux-arc-dawn-git
   remove_if_installed arcolinux-arc-kde
+  remove_if_installed arcolinux-bin-git
+  remove_if_installed arcolinux-btop-git
+  remove_if_installed arcolinux-bootloader-systemd-boot-git
+  remove_if_installed arcolinux-common-git
+  remove_if_installed arcolinux-config-all-desktops-git
+  remove_if_installed arcolinux-cron-git
   remove_if_installed arcolinux-dconf-all-desktops-git
   remove_if_installed arcolinux-desktop-trasher-git
   remove_if_installed arcolinux-faces-git
+  remove_if_installed arcolinux-fastfetch-git
   remove_if_installed arcolinux-fish-git
   remove_if_installed arcolinux-fonts-git
+  remove_if_installed arcolinux-gtk-sardi-arc-git
+  remove_if_installed arcolinux-gtk-surfn-arc-git
   remove_if_installed arcolinux-hblock-git
+  remove_if_installed arcolinux-hyfetch-git
   remove_if_installed arcolinux-kvantum-git
   remove_if_installed arcolinux-local-applications-all-hide-git
   remove_if_installed arcolinux-local-applications-git
   remove_if_installed arcolinux-local-xfce4-git
   remove_if_installed arcolinux-logo-git
   remove_if_installed arcolinux-meta-log
+  remove_if_installed arcolinux-neofetch-git
+  remove_if_installed arcolinux-openbox-themes-git
+  remove_if_installed arcolinux-pacman-git
+  remove_if_installed arcolinux-paleofetch-git
+  remove_if_installed arcolinux-paru-git
+  remove_if_installed arcolinux-plank-git
+  remove_if_installed arcolinux-plank-themes-git
+  remove_if_installed arcolinux-polybar-git
+  remove_if_installed arcolinux-powermenu-git
+  remove_if_installed arcolinux-qt5-git
+  remove_if_installed arcolinux-reflector-simple-git
   remove_if_installed arcolinux-rofi-git
   remove_if_installed arcolinux-rofi-themes-git
   remove_if_installed arcolinux-root-git
   remove_if_installed arcolinux-sddm-simplicity-git
+  remove_if_installed arcolinux-system-config-git
+  remove_if_installed arcolinuxd-system-config-git
   remove_if_installed arcolinux-systemd-services-git
+  remove_if_installed arcolinux-teamviewer
+  remove_if_installed arcolinux-termite-themes-git
+  remove_if_installed arcolinux-variety-autostart-git
+  remove_if_installed arcolinux-volumeicon-git
   remove_if_installed arcolinux-wallpapers-git
+  remove_if_installed arcolinux-wallpapers-candy-git
   remove_if_installed arcolinux-welcome-app-git
+  remove_if_installed arcolinuxd-welcome-app-git
   remove_if_installed arcolinux-xfce-panel-profiles-git
   remove_if_installed arcolinux-zsh-git
   remove_if_installed arconet-variety-config
+  remove_if_installed arcopro-wallpapers
   remove_if_installed arconet-wallpapers
   remove_if_installed arconet-xfce
   remove_if_installed sofirem-git
+
+  remove_if_installed simplicity-sddm-theme-git
 
   if [ -f /usr/share/wayland-sessions/plasma.desktop ]; then
     remove_if_installed arcolinux-plasma-keybindings-git
@@ -539,6 +557,30 @@ if grep -q "Manjaro" /etc/os-release; then
 
 fi
 
+
+# when on Artix xfce - remove conflicting files - xfce iso is default
+if grep -q "artix" /etc/os-release; then
+  echo
+  tput setaf 2
+  echo "##############################################################"
+  echo "####### Removing software for Artix"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+  remove_if_installed artix-qt-presets
+  remove_if_installed artix-gtk-presets
+  remove_if_installed artix-desktop-presets
+
+  echo
+  tput setaf 2
+  echo "##############################################################"
+  echo "################### Software on Manjaro removed"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+fi
 
 echo
 tput setaf 6
