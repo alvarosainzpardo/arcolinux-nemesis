@@ -146,6 +146,8 @@ configure_virt-manager () {
     log_info "Setting default network"
     virsh net-autostart default
 
+    log_error "TODO: Enabling nested virtualization"
+
     # Create directory in home for storage pool
     [[ -d $HOME/QEMU/images ]] || mkdir $HOME/QEMU/images
     # Alternative version (less compact more readable)
@@ -156,10 +158,12 @@ configure_virt-manager () {
 
     # Delete default storage pool that points to /var/lib/libvirt/images
     if virsh pool-info default >/dev/null 2>&1 ; then
+        log_info "Deleting default storage pool"
         virsh pool-destroy default # make storage pool inactive
         virsh pool-undefine default # Delete only pool definition, not folder
     fi
     # Create default storage pool pointing to $HOME/QEMU/images
+    log_info "Creating new default storage pool"
     virsh pool-define-as default dir - - - - $HOME/QEMU/images
     virsh pool-build default
     virsh pool-start default

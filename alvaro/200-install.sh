@@ -120,7 +120,7 @@ install_if_not_installed stow
 install_if_not_installed qemu-desktop
 install_if_not_installed virt-manager
 install_if_not_installed dnsmasq
-install_if_not_installed libguestfs
+install_if_not_installed libguestfs # tools for managing virtual disk images from host (guestfish, guestmount, ...)
 
 ##################################################################################################################################
 
