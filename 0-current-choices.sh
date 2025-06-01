@@ -133,11 +133,11 @@ if ! grep -q -e "Manjaro" -e "Artix" /etc/os-release; then
   echo
 echo "## Best Arch Linux servers worldwide from arcolinux-nemesis
 
-Server = http://mirror.rackspace.com/archlinux/\$repo/os/\$arch
+Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch
 Server = https://mirror.rackspace.com/archlinux/\$repo/os/\$arch
 Server = https://geo.mirror.pkgbuild.com/\$repo/os/\$arch
-Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch
 Server = http://mirror.osbeck.com/archlinux/\$repo/os/\$arch
+Server = http://mirror.rackspace.com/archlinux/\$repo/os/\$arch
 Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"  | sudo tee /etc/pacman.d/mirrorlist
     echo
     tput setaf 2
@@ -150,6 +150,15 @@ Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"  | sudo tee /etc
 fi
 
 # order is important - dependencies
+
+echo "################################################################################"
+echo "Installing Chaotic keyring and Chaotic mirrorlist"
+echo "################################################################################"
+echo
+
+for pkg in packages/*.pkg.tar.zst; do
+    [ -f "$pkg" ] && sudo pacman -U --noconfirm "$pkg"
+done
 
 # personal pacman.conf for Erik Dubois
 if [[ ! -f /etc/pacman.conf.nemesis ]]; then
@@ -195,31 +204,6 @@ for pkg in \
   if pacman -Q "$pkg" &>/dev/null; then
     sudo pacman -R --noconfirm "$pkg"
   fi
-done
-
-echo
-tput setaf 2
-echo "################################################################################"
-echo "Installing Chaotic keyring and Chaotic mirrorlist"
-echo "################################################################################"
-tput sgr0
-echo  
-
-# Installing chaotic-aur keys and mirrors
-pkg_dir="packages"
-
-# Ensure directory exists
-if [[ ! -d "$pkg_dir" ]]; then
-    echo "Directory not found: $pkg_dir"
-    exit 1
-fi
-
-# Install each package
-for pkg in "$pkg_dir"/*.pkg.tar.zst; do
-    if [[ -f "$pkg" ]]; then
-        echo "Installing: $pkg"
-        sudo pacman -U --noconfirm "$pkg"
-    fi
 done
 
 echo
@@ -289,6 +273,7 @@ sh 120-install-core-software*
 
 sh 160-install-bluetooth*
 sh 170-install-cups*
+sh 180-ananicy*
 
 #packages we need to build
 sh 200-software-aur-repo*
