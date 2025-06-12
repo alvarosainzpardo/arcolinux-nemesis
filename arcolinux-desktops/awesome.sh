@@ -43,13 +43,23 @@ fi
 
 ##################################################################################################################################
 
-echo
-tput setaf 3
-echo "########################################################################"
-echo "################### awesome"
-echo "########################################################################"
-tput sgr0
-echo
+remove_if_installed() {
+    for pattern in "$@"; do
+        # Find all installed packages that match the pattern (exact + variants)
+        matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
+        
+        if [ -n "$matches" ]; then
+            for pkg in $matches; do
+                echo "Removing package: $pkg"
+                sudo pacman -R --noconfirm "$pkg"
+            done
+        else
+            echo "No packages matching '$pattern' are installed."
+        fi
+    done
+}
+
+##################################################################################################################################
 
 func_install() {
     if pacman -Qi $1 &> /dev/null; then
@@ -70,6 +80,21 @@ func_install() {
     fi
 }
 
+##################################################################################################################################
+
+echo
+tput setaf 2
+echo "########################################################################"
+echo "################### Remove possible conflicting packages for Chadwm"
+echo "########################################################################"
+tput sgr0
+echo
+
+remove_if_installed arcolinux-rofi-git
+remove_if_installed arcolinux-rofi-themes-git
+remove_if_installed arconet-xfce
+remove_if_installed lxappearance
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -87,6 +112,7 @@ dmenu
 edu-awesome-git
 edu-xfce-git
 feh
+lxappearance-gtk3
 nitrogen
 noto-fonts
 picom-git

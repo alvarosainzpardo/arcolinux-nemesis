@@ -43,13 +43,23 @@ fi
 
 ##################################################################################################################################
 
-echo
-tput setaf 3
-echo "########################################################################"
-echo "################### Mate"
-echo "########################################################################"
-tput sgr0
-echo
+remove_if_installed() {
+    for pattern in "$@"; do
+        # Find all installed packages that match the pattern (exact + variants)
+        matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
+        
+        if [ -n "$matches" ]; then
+            for pkg in $matches; do
+                echo "Removing package: $pkg"
+                sudo pacman -R --noconfirm "$pkg"
+            done
+        else
+            echo "No packages matching '$pattern' are installed."
+        fi
+    done
+}
+
+##################################################################################################################################
 
 func_install() {
     if pacman -Qi $1 &> /dev/null; then
@@ -69,6 +79,16 @@ func_install() {
         sudo pacman -S --noconfirm --needed $1
     fi
 }
+
+##################################################################################################################################
+
+# echo
+# tput setaf 2
+# echo "########################################################################"
+# echo "################### Remove possible conflicting packages"
+# echo "########################################################################"
+# tput sgr0
+# echo
 
 echo
 tput setaf 2

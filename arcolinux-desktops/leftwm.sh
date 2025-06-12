@@ -43,13 +43,23 @@ fi
 
 ##################################################################################################################################
 
-echo
-tput setaf 3
-echo "########################################################################"
-echo "################### Leftwm"
-echo "########################################################################"
-tput sgr0
-echo
+remove_if_installed() {
+    for pattern in "$@"; do
+        # Find all installed packages that match the pattern (exact + variants)
+        matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
+        
+        if [ -n "$matches" ]; then
+            for pkg in $matches; do
+                echo "Removing package: $pkg"
+                sudo pacman -R --noconfirm "$pkg"
+            done
+        else
+            echo "No packages matching '$pattern' are installed."
+        fi
+    done
+}
+
+##################################################################################################################################
 
 func_install() {
     if pacman -Qi $1 &> /dev/null; then
@@ -70,6 +80,21 @@ func_install() {
     fi
 }
 
+##################################################################################################################################
+
+echo
+tput setaf 2
+echo "########################################################################"
+echo "################### Remove possible conflicting packages"
+echo "########################################################################"
+tput sgr0
+echo
+
+remove_if_installed arcolinux-leftwm-git
+remove_if_installed arcolinux-rofi-themes-git
+remove_if_installed arconet-xfce
+remove_if_installed lxappearance
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -88,6 +113,7 @@ edu-xfce-git
 feh
 leftwm-git
 leftwm-theme-git
+lxappearance-gtk3
 nitrogen
 noto-fonts
 picom-git
@@ -98,8 +124,8 @@ sxhkd
 thunar
 thunar-archive-plugin
 thunar-volman
-ttf-hack
 ttf-fantasque-sans-mono
+ttf-hack
 ttf-iosevka-nerd
 ttf-material-design-iconic-font
 ttf-meslo-nerd-font-powerlevel10k

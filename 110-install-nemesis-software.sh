@@ -80,6 +80,13 @@ if [ -f /usr/share/xsessions/xfce.desktop ]; then
   sudo pacman -S --noconfirm mugshot
 fi
 
+echo "Adding font to /etc/vconsole.conf"
+if ! grep -q "FONT=" /etc/vconsole.conf; then
+echo '
+FONT=lat4-19' | sudo tee --append /etc/vconsole.conf
+fi
+
+sudo pacman -S --noconfirm --needed mkinitcpio-firmware
 sudo pacman -S --noconfirm upd72020x-fw
 
 if [ -f /usr/share/wayland-sessions/plasma.desktop ]; then

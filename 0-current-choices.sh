@@ -129,8 +129,36 @@ fi
 
 if ! grep -q -e "Manjaro" -e "Artix" /etc/os-release; then
 
-  echo "Deleting current /etc/pacman.d/mirrorlist and replacing with"
-  echo
+    # backup original mirrorlist
+    if [[ ! -f /etc/pacman.d/mirrorlist.nemesis ]]; then
+        echo
+        tput setaf 2
+        echo "################################################################################"
+        echo "Copying /etc/pacman.d/mirrorlist to /etc/pacman.d/mirrorlist-nemesis"
+        echo "Making a backup that ends with -nemesis"
+        echo "################################################################################"
+        tput sgr0
+        echo
+        sudo cp -v /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist-nemesis
+        echo
+    else
+        echo
+        tput setaf 2
+        echo "################################################################################"
+        echo "Backup already exists: /etc/pacman.d/mirrorlist-nemesis"
+        echo "################################################################################"
+        tput sgr0
+        echo
+    fi
+
+    # personal mirrorlist for Erik Dubois
+    tput setaf 2
+    echo "################################################################################"    
+    echo "Replacing content of current /etc/pacman.d/mirrorlist"
+    echo "Backup exists here: /etc/pacman.d/mirrorlist-nemesis"
+    echo "################################################################################"
+    tput sgr0
+
 echo "## Best Arch Linux servers worldwide from arcolinux-nemesis
 
 Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch
@@ -144,16 +172,19 @@ Server = https://mirrors.kernel.org/archlinux/\$repo/os/\$arch"  | sudo tee /etc
     echo "################################################################################"
     echo "Arch Linux Servers have been written to /etc/pacman.d/mirrorlist"
     echo "Use nmirrorlist when on ArcoLinux to inspect"
+    echo "Use nano /etc/pacman.d/mirrorlist to inspect on others"
     echo "################################################################################"
     tput sgr0
     echo  
 fi
 
 # order is important - dependencies
-
+echo
+tput setaf 2
 echo "################################################################################"
 echo "Installing Chaotic keyring and Chaotic mirrorlist"
 echo "################################################################################"
+tput sgr0
 echo
 
 for pkg in packages/*.pkg.tar.zst; do
@@ -167,6 +198,7 @@ if [[ ! -f /etc/pacman.conf.nemesis ]]; then
     echo "################################################################################"
     echo "Copying /etc/pacman.conf to /etc/pacman.conf.nemesis"
     echo "Use npacman when on ArcoLinux to inspect"
+    echo "Use nano /etc/pacman.conf to inspect"
     echo "################################################################################"
     tput sgr0
     echo
@@ -178,6 +210,7 @@ else
     echo "################################################################################"
     echo "Backup already exists: /etc/pacman.conf.nemesis"
     echo "Use npacman when on ArcoLinux to inspect"
+    echo "Use nano /etc/pacman.conf to inspect"
     echo "################################################################################"
     tput sgr0
     echo
@@ -185,6 +218,9 @@ fi
 
 sudo cp -v pacman.conf /etc/pacman.conf
 sudo cp -v pacman.conf /etc/pacman.conf.edu
+echo
+echo "/etc/pacman.conf.edu is there to have a backup"
+echo
 
 echo
 tput setaf 3
@@ -192,6 +228,7 @@ echo "########################################################################"
 echo "######## Removing the Arch Linux Tweak Tool"
 echo "######## Removing arcolinux-keyring"
 echo "######## Removing arcolinux-mirrorlist-git"
+echo "######## if present"
 echo "########################################################################"
 tput sgr0
 echo
