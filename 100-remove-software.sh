@@ -504,10 +504,13 @@ if grep -q "cachyos" /etc/os-release; then
   echo
 
   remove_if_installed cachyos-kernel-manager
-
+  remove_if_installed cachyos-kde-settings
+  remove_if_installed cachyos-fish-config
+  
   remove_if_installed btrfs-progs
   remove_if_installed cachy-browser
-  remove_if_installed cachyos-fish-config fastfetch
+  remove_if_installed fastfetch
+  remove_if_installed cachyos-alacritty-config
   remove_if_installed cachyos-hello
   remove_if_installed cachyos-micro-settings 
   remove_if_installed cachyos-packageinstaller
@@ -518,6 +521,11 @@ if grep -q "cachyos" /etc/os-release; then
   remove_if_installed octopi
   remove_if_installed paru
   remove_if_installed ufw
+
+  remove_if_installed cachyos-emerald-kde-theme-git
+  remove_if_installed cachyos-iridescent-kde
+  remove_if_installed cachyos-nord-kde-theme-git
+  remove_if_installed cachyos-themes-sddm
 
   # for icons in chadwm
   remove_if_installed noto-color-emoji-fontconfig
