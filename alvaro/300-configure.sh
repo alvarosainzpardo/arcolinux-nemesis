@@ -45,7 +45,7 @@ remove_if_installed() {
     for pattern in "$@"; do
         # Find all installed packages that match the pattern (exact + variants)
         matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
-        
+
         if [ -n "$matches" ]; then
             for pkg in $matches; do
                 log_info "Removing package: $pkg"
@@ -176,6 +176,16 @@ configure_virt-manager () {
     dconf write /org/virt-manager/virt-manager/new-vm/firmware "'uefi'"
 }
 
+function configure_nvim() {
+  mkdir -p $XDG_CONFIG_HOME/stylua
+  cat <<EOF >$XDG_CONFIG_HOME/stylua/stylua.toml
+  indent_type = "Spaces"
+  indent_width = 2
+  quote_style = "AutoPreferSingle"
+  call_parentheses = "None"
+  EOF
+}
+
 ##################################################################################################################################
 
 log_header
@@ -183,6 +193,7 @@ log_header
 ##################################################################################################################################
 
 # configure_virt-manager
+configure_nvim
 
 ##################################################################################################################################
 

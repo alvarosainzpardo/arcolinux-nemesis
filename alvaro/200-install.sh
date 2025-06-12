@@ -45,7 +45,7 @@ remove_if_installed() {
     for pattern in "$@"; do
         # Find all installed packages that match the pattern (exact + variants)
         matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
-        
+
         if [ -n "$matches" ]; then
             for pkg in $matches; do
                 log_info "Removing package: $pkg"
@@ -115,6 +115,24 @@ log_header
 # General software
 install_if_not_installed git
 install_if_not_installed stow
+install_if_not_installed firefox
+install_if_not_installed vim
+install_if_not_installed tar
+install_if_not_installed curl
+install_if_not_installed wget
+install_if_not_installed zsh
+install_if_not_installed fish
+install_if_not_installed npm
+install_if_not_installed nvm
+
+# neovim
+install_if_not_installed neovim
+install_if_not_installed python-pynvim
+install_if_not_installed luarocks
+install_if_not_installed tree-sitter-cli
+install_if_not_installed neovim
+install_if_not_installed neovim
+install_if_not_installed neovim
 
 # virt-manager / libvirt / QEMU / KVM
 install_if_not_installed qemu-desktop
