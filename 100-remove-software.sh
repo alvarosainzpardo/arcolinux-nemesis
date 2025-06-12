@@ -71,12 +71,19 @@ echo "##############################################################"
 tput sgr0
 echo
 
-# always put the current .bashrc .zshrc away
-if [ -f /etc/skel/.bashrc ]; then
+# always put the current .bashrc away
+if [ -f /etc/skel/.bashrc-nemesis ]; then
+  # Do nothing because backup already exists
+  :
+elif [ -f /etc/skel/.bashrc ]; then
   sudo mv -v /etc/skel/.bashrc /etc/skel/.bashrc-nemesis
 fi
 
-if [ -f /etc/skel/.zshrc ]; then
+# always put the current .zshrc away
+if [ -f /etc/skel/.zshrc-nemesis ]; then
+  # Do nothing because backup already exists
+  :
+elif [ -f /etc/skel/.zshrc ]; then
   sudo mv -v /etc/skel/.zshrc /etc/skel/.zshrc-nemesis
 fi
 
@@ -242,7 +249,7 @@ if grep -q "Arch Linux" /etc/os-release && [ ! -e /bootloader ]; then
   echo
   tput setaf 3
   echo "########################################################################"
-  echo "######## Nothing to do"
+  echo "######## Nothing to do - we are on Arch Linux"
   echo "########################################################################"
   tput sgr0
   echo
