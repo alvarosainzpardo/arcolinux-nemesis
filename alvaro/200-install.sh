@@ -115,15 +115,19 @@ log_header
 # General software
 install_if_not_installed git
 install_if_not_installed stow
+install_if_not_installed bash-completion
 install_if_not_installed firefox
+install_if_not_installed less
 install_if_not_installed vim
 install_if_not_installed tar
 install_if_not_installed curl
 install_if_not_installed wget
 install_if_not_installed zsh
 install_if_not_installed fish
+install_if_not_installed nodejs
 install_if_not_installed npm
 install_if_not_installed nvm
+install_if_not_installed man-db man-pages
 
 # neovim
 install_if_not_installed neovim
