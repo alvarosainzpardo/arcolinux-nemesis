@@ -128,6 +128,9 @@ install_if_not_installed nodejs
 install_if_not_installed npm
 install_if_not_installed nvm
 install_if_not_installed man-db man-pages
+install_if_not_installed noto-fonts
+install_if_not_installed xorg-xrandr
+install_if_not_installed nitrogen feh
 
 # neovim
 install_if_not_installed neovim
