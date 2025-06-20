@@ -130,6 +130,7 @@ install_if_not_installed nvm
 install_if_not_installed man-db man-pages
 install_if_not_installed noto-fonts
 install_if_not_installed ripgrep
+install_if_not_installed qutebrowser
 
 # Qtile
 install_if_not_installed qtile
