@@ -129,17 +129,28 @@ install_if_not_installed npm
 install_if_not_installed nvm
 install_if_not_installed man-db man-pages
 install_if_not_installed noto-fonts
+install_if_not_installed ripgrep
+install_if_not_installed qutebrowser
+install_if_not_installed fastfetch
+
+# Qtile
+install_if_not_installed qtile
 install_if_not_installed xorg-xrandr
 install_if_not_installed nitrogen feh
+install_if_not_installed rofi
+install_if_not_installed dunst
+install_if_not_installed polybar
+install_if_not_installed arcolinux-qtile-git
+install_if_not_installed sxhkd
 
-# neovim
+# Neovim
 install_if_not_installed neovim
+install_if_not_installed xsel
+install_if_not_installed xclip
 install_if_not_installed python-pynvim
 install_if_not_installed luarocks
 install_if_not_installed tree-sitter-cli
-install_if_not_installed neovim
-install_if_not_installed neovim
-install_if_not_installed neovim
+install_if_not_installed stylua
 
 # virt-manager / libvirt / QEMU / KVM
 install_if_not_installed qemu-desktop
