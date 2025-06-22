@@ -177,6 +177,7 @@ dconf write /org/virt-manager/virt-manager/new-vm/firmware "'uefi'"
 }
 
 function configure_nvim() {
+  log_info "Configuring Neovim"
   mkdir -p $HOME/.config/stylua
   cat <<-EOF >$HOME/.config/stylua/stylua.toml
 	indent_type = "Spaces"
@@ -187,10 +188,19 @@ function configure_nvim() {
 }
 
 function configure_xfce4_terminal () {
+  log_info "Configuring XFCE4 Terminal"
   xconf-query -c xfce4-terminal -n -p /background-darkness  0.850000
   xconf-query -c xfce4-terminal -n -p /background-mode      TERMINAL_BACKGROUND_TRANSPARENT
   xconf-query -c xfce4-terminal -n -p /command-login-shell -s true
   xconf-query -c xfce4-terminal -n -p /scrolling-unlimited -s true
+}
+
+function configure_wallpapers () {
+  log_info "Configuring wallpapers"
+  mkdir -p $HOME/Pictures/wallpapers/
+  cd $HOME/Pictures/wallpapers
+  git clone https://gitlab.com/dwt1/wallpapers.git ./distrotube
+  git clone https://github.com/mylinuxforwork/wallpaper.git ./mylinuxforwork
 }
 
 ##################################################################################################################################
@@ -200,8 +210,9 @@ log_header
 ##################################################################################################################################
 
 # configure_virt-manager
-configure_nvim
-configure_xfce4_terminal
+# configure_nvim
+# configure_xfce4_terminal
+configure_wallpapers
 
 ##################################################################################################################################
 

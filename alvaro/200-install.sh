@@ -131,6 +131,7 @@ install_if_not_installed man-db man-pages
 install_if_not_installed noto-fonts
 install_if_not_installed ripgrep
 install_if_not_installed qutebrowser
+install_if_not_installed fastfetch
 
 # Qtile
 install_if_not_installed qtile
@@ -139,6 +140,8 @@ install_if_not_installed nitrogen feh
 install_if_not_installed rofi
 install_if_not_installed dunst
 install_if_not_installed polybar
+install_if_not_installed arcolinux-qtile-git
+install_if_not_installed sxhkd
 
 # Neovim
 install_if_not_installed neovim
