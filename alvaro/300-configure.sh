@@ -187,8 +187,8 @@ function configure_nvim() {
 }
 
 function configure_xfce4_terminal () {
-  xconf-query -c xfce4-terminal -n -p /background-darkness  0.850000
-  xconf-query -c xfce4-terminal -n -p /background-mode      TERMINAL_BACKGROUND_TRANSPARENT
+  xconf-query -c xfce4-terminal -n -p /background-darkness -s 0.85
+  xconf-query -c xfce4-terminal -n -p /background-mode -s TERMINAL_BACKGROUND_TRANSPARENT
   xconf-query -c xfce4-terminal -n -p /command-login-shell -s true
   xconf-query -c xfce4-terminal -n -p /scrolling-unlimited -s true
 }
