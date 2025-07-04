@@ -118,7 +118,7 @@ install_if_not_installed stow
 install_if_not_installed bash-completion
 install_if_not_installed firefox
 install_if_not_installed less
-install_if_not_installed vim
+install_if_not_installed gvim
 install_if_not_installed tar
 install_if_not_installed curl
 install_if_not_installed wget
@@ -131,12 +131,15 @@ install_if_not_installed man-db man-pages
 install_if_not_installed noto-fonts
 install_if_not_installed ripgrep
 install_if_not_installed qutebrowser
+install_if_not_installed python-adblock
 install_if_not_installed fastfetch
+install_if_not_installed calibre qt6-multimedia-gstreamer
 
 # Qtile
 install_if_not_installed qtile
 install_if_not_installed xorg-xrandr
 install_if_not_installed nitrogen feh
+install_if_not_installed feh
 install_if_not_installed rofi
 install_if_not_installed dunst
 install_if_not_installed polybar
