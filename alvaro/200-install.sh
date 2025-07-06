@@ -138,13 +138,14 @@ install_if_not_installed calibre qt6-multimedia-gstreamer
 # Qtile
 install_if_not_installed qtile
 install_if_not_installed xorg-xrandr
-install_if_not_installed nitrogen feh
+install_if_not_installed nitrogen
 install_if_not_installed feh
 install_if_not_installed rofi
 install_if_not_installed dunst
 install_if_not_installed polybar
 install_if_not_installed arcolinux-qtile-git
 install_if_not_installed sxhkd
+install_if_not_installed volumeicon
 
 # Neovim
 install_if_not_installed neovim
