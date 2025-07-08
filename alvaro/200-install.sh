@@ -134,6 +134,16 @@ install_if_not_installed qutebrowser
 install_if_not_installed python-adblock
 install_if_not_installed fastfetch
 install_if_not_installed calibre qt6-multimedia-gstreamer
+install_if_not_installed obsidian
+
+# Neovim
+install_if_not_installed neovim
+install_if_not_installed xsel
+install_if_not_installed xclip
+install_if_not_installed python-pynvim
+install_if_not_installed luarocks
+install_if_not_installed tree-sitter-cli
+install_if_not_installed stylua
 
 # Qtile
 install_if_not_installed qtile
@@ -146,15 +156,6 @@ install_if_not_installed polybar
 install_if_not_installed arcolinux-qtile-git
 install_if_not_installed sxhkd
 install_if_not_installed volumeicon
-
-# Neovim
-install_if_not_installed neovim
-install_if_not_installed xsel
-install_if_not_installed xclip
-install_if_not_installed python-pynvim
-install_if_not_installed luarocks
-install_if_not_installed tree-sitter-cli
-install_if_not_installed stylua
 
 # virt-manager / libvirt / QEMU / KVM
 install_if_not_installed qemu-desktop
