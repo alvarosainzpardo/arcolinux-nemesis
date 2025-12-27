@@ -201,6 +201,25 @@ function configure_wallpapers () {
   cd $HOME/Pictures/wallpapers
   git clone https://gitlab.com/dwt1/wallpapers.git ./distrotube
   git clone https://github.com/mylinuxforwork/wallpaper.git ./mylinuxforwork
+  cd
+}
+
+function configure_starship () {
+  if [[ -f ~/.config/fish/config.fish ]]; then
+    echo -e '\nstarship init fish | source' >>~/.config/fish/config.fish
+  fi
+  if [[ -f ~/.zshrc ]]; then
+    echo -e '\neval "$(starship init zsh)"' >>~/.zshrc
+  fi
+}
+
+function configure_conda () {
+  cd ~/tmp
+  curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" 
+  bash Miniforge3-$(uname)-$(uname -m).sh
+  conda init --all
+  conda config --set auto_activate_base false
+  conda config --set changeps1 false
 }
 
 ##################################################################################################################################
@@ -212,7 +231,8 @@ log_header
 # configure_virt-manager
 # configure_nvim
 # configure_xfce4_terminal
-configure_wallpapers
+# configure_wallpapers
+configure_starship 
 
 ##################################################################################################################################
 

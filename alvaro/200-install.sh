@@ -135,6 +135,9 @@ install_if_not_installed python-adblock
 install_if_not_installed fastfetch
 install_if_not_installed calibre qt6-multimedia-gstreamer
 install_if_not_installed obsidian
+install_if_not_installed librewolf
+install_if_not_installed vivaldi
+install_if_not_installed starship
 
 # Neovim
 install_if_not_installed neovim
@@ -147,6 +150,7 @@ install_if_not_installed stylua
 
 # Qtile
 install_if_not_installed qtile
+install_if_not_installed qtile-extras-git
 install_if_not_installed xorg-xrandr
 install_if_not_installed nitrogen
 install_if_not_installed feh
