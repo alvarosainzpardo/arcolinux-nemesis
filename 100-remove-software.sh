@@ -105,25 +105,44 @@ if command -v systemd-detect-virt &> /dev/null; then
 
 fi
 
-remove_if_installed rofi-lbonn-wayland
-remove_if_installed rofi-lbonn-wayland-git
-remove_if_installed neofetch
-remove_if_installed fastfetch
-remove_if_installed yay
-remove_if_installed paru
-remove_if_installed picom
-remove_if_installed lxappearance
+# when NOT on KIRO - remove
+if ! grep -q "kiro" /etc/os-release; then
 
-# when on any ArcoLinux ISO
-if [[ -f /etc/dev-rel ]]; then
   echo
   tput setaf 3
   echo "##############################################################"
-  echo "####### Removing software on ArcoLinux ISOs"
+  echo "############### Removing software"
   echo "##############################################################"
   tput sgr0
   echo
 
+  remove_if_installed rofi-lbonn-wayland
+  remove_if_installed rofi-lbonn-wayland-git
+  remove_if_installed neofetch
+  remove_if_installed fastfetch
+  remove_if_installed yay
+  remove_if_installed paru
+  remove_if_installed picom
+  remove_if_installed lxappearance
+
+  remove_if_installed xfsprogs
+  remove_if_installed btrfs-progs
+  remove_if_installed jfsutils
+  remove_if_installed mkinitcpio-nfs-utils
+  remove_if_installed xfburn
+  remove_if_installed parole
+
+  echo
+  tput setaf 3
+  echo "##############################################################"
+  echo "################### Software removed"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+fi
+
+# when on ArcoLinux or Arch Linux based with arcolinux packages
   echo
   tput setaf 3
   echo "########################################################################"
@@ -228,11 +247,16 @@ if [[ -f /etc/dev-rel ]]; then
   echo
 
   remove_if_installed bibata-cursor-theme-bin
-  remove_if_installed fastfetch
   remove_if_installed mintstick-git
   remove_if_installed nomacs-qt6-git
   remove_if_installed rate-mirrors-bin
   remove_if_installed xfce4-artwork
+
+  remove_if_installed 
+
+  if pacman -Q fastfetch &>/dev/null; then
+    sudo pacman -R --noconfirm fastfetch &>/dev/null
+  fi
 
   tput setaf 3
   echo "##############################################################"
@@ -241,7 +265,6 @@ if [[ -f /etc/dev-rel ]]; then
   tput sgr0
   echo
 
-fi
 
 # when on Arch Linux - remove conflicting files
 if grep -q "Arch Linux" /etc/os-release && [ ! -e /bootloader ]; then
@@ -590,12 +613,83 @@ if grep -q "artix" /etc/os-release; then
   echo
   tput setaf 2
   echo "##############################################################"
-  echo "################### Software on Manjaro removed"
+  echo "################### Software on Artix removed"
   echo "##############################################################"
   tput sgr0
   echo
 
 fi
+
+# when on Omarchy - remove packages and files
+if [ -f /etc/plymouth/plymouthd.conf ] && grep -q "omarchy" /etc/plymouth/plymouthd.conf; then
+  echo
+  tput setaf 2
+  echo "##############################################################"
+  echo "####### Removing software for Omarchy"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+  remove_if_installed 1password-beta
+  remove_if_installed 1password-cli
+  remove_if_installed docker
+  remove_if_installed docker-buildx
+  remove_if_installed docker-compose
+  remove_if_installed gnome-calculator
+  remove_if_installed kdenlive
+  remove_if_installed lazydocker
+  remove_if_installed libreoffice-fresh
+  remove_if_installed localsend-bin
+  remove_if_installed mpv
+  remove_if_installed omarchy-chromium
+  remove_if_installed pinta
+  remove_if_installed typora
+  remove_if_installed xournalpp
+  
+  # webapps removed from .local/share/applications
+
+remove_if_exists() {
+    if [ -f "$1" ]; then
+        rm "$1"
+        echo "Removed: $1"
+    else
+        echo "Already removed: $1"
+    fi
+}
+
+remove_if_exists "$HOME/.local/share/applications/X.desktop"
+remove_if_exists "$HOME/.local/share/applications/WhatsApp.desktop"
+remove_if_exists "$HOME/.local/share/applications/Zoom.desktop"
+remove_if_exists "$HOME/.local/share/applications/HEY.desktop"
+remove_if_exists "$HOME/.local/share/applications/typora.desktop"
+remove_if_exists "$HOME/.local/share/applications/Google Contacts.desktop"
+remove_if_exists "$HOME/.local/share/applications/Google Messages.desktop"
+remove_if_exists "$HOME/.local/share/applications/Google Photos.desktop"
+remove_if_exists "$HOME/.local/share/applications/Figma.desktop"
+remove_if_exists "$HOME/.local/share/applications/Docker.desktop"
+remove_if_exists "$HOME/.local/share/applications/Discord.desktop"
+remove_if_exists "$HOME/.local/share/applications/ChatGPT.desktop"
+remove_if_exists "$HOME/.local/share/applications/Basecamp.desktop"
+remove_if_exists "$HOME/.local/share/applications/brave-browser.desktop"
+remove_if_exists "$HOME/.local/share/applications/YouTube.desktop"
+remove_if_exists "$HOME/.local/share/applications/GitHub.desktop"
+remove_if_exists "$HOME/.local/share/applications/Disk Usage.desktop"
+
+
+  echo
+  tput setaf 2
+  echo "##############################################################"
+  echo "################### Software on Omarchy removed"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+fi
+
+
+# when on Arcris - remove packages and files
+remove_if_installed mpv
+remove_if_installed clapper
 
 echo
 tput setaf 6

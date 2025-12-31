@@ -36,6 +36,24 @@ fi
 
 ##################################################################################################################################
 
+remove_if_installed() {
+    for pattern in "$@"; do
+        # Find all installed packages that match the pattern (exact + variants)
+        matches=$(pacman -Qq | grep "^${pattern}$\|^${pattern}-")
+        
+        if [ -n "$matches" ]; then
+            for pkg in $matches; do
+                echo "Removing package: $pkg"
+                sudo pacman -R --noconfirm "$pkg"
+            done
+        else
+            echo "No packages matching '$pattern' are installed."
+        fi
+    done
+}
+
+##################################################################################################################################
+
 echo
 tput setaf 2
 echo "########################################################################"
@@ -80,7 +98,7 @@ sudo pacman -S --noconfirm --needed simplescreenrecorder-qt6-git
 if [ ! -f /usr/share/wayland-sessions/plasma.desktop ]; then
   sudo pacman -S --noconfirm --needed alacritty
   sudo pacman -S --noconfirm --needed arandr
-  sudo pacman -S --noconfirm --needed awesome-terminal-fonts
+  #sudo pacman -S --noconfirm --needed awesome-terminal-fonts
   sudo pacman -S --noconfirm --needed catfish
   sudo pacman -S --noconfirm --needed dmenu
   sudo pacman -S --noconfirm --needed evince
@@ -88,7 +106,6 @@ if [ ! -f /usr/share/wayland-sessions/plasma.desktop ]; then
   sudo pacman -S --noconfirm --needed network-manager-applet
   sudo pacman -S --noconfirm --needed networkmanager-openvpn
   sudo pacman -S --noconfirm --needed networkmanager
-  sudo pacman -S --noconfirm --needed nitrogen
   sudo pacman -S --noconfirm --needed numlockx
   sudo pacman -S --noconfirm --needed pavucontrol
   sudo pacman -S --noconfirm --needed playerctl
@@ -101,7 +118,7 @@ fi
 # All the software below will be installed on all desktops
 
 sudo pacman -S --noconfirm --needed fastfetch-git
-sudo pacman -S --noconfirm --needed neofetch-git
+sudo pacman -S --noconfirm --needed chaotic-neofetch-git
 sudo pacman -S --noconfirm --needed yay-git
 sudo pacman -S --noconfirm --needed paru-git
 
@@ -114,16 +131,14 @@ sudo pacman -S --noconfirm --needed bash-completion
 sudo pacman -S --noconfirm --needed bat
 sudo pacman -S --noconfirm --needed bibata-cursor-theme
 sudo pacman -S --noconfirm --needed brave-bin
-sudo pacman -S --noconfirm --needed breeze-icons
+#sudo pacman -S --noconfirm --needed breeze-icons
 sudo pacman -S --noconfirm --needed btop
 sudo pacman -S --noconfirm --needed chromium
 sudo pacman -S --noconfirm --needed curl
 sudo pacman -S --noconfirm --needed dconf-editor
 sudo pacman -S --noconfirm --needed debugedit
 sudo pacman -S --noconfirm --needed devtools
-sudo pacman -S --noconfirm --needed discord
 sudo pacman -S --noconfirm --needed downgrade
-sudo pacman -S --noconfirm --needed dropbox
 if [ ! -f /usr/bin/duf ]; then
   sudo pacman -S --noconfirm --needed duf
 fi
@@ -142,21 +157,20 @@ sudo pacman -S --noconfirm --needed gvfs-smb
 sudo pacman -S --noconfirm --needed gvfs-dnssd
 sudo pacman -S --noconfirm --needed hardcode-fixer-git
 sudo pacman -S --noconfirm --needed hardinfo2
-sudo pacman -S --noconfirm --needed hddtemp
-sudo pacman -S --noconfirm --needed hw-probe
-sudo pacman -S --noconfirm --needed hyfetch
+#sudo pacman -S --noconfirm --needed hddtemp
+#sudo pacman -S --noconfirm --needed hyfetch
 sudo pacman -S --noconfirm --needed inetutils
 sudo pacman -S --noconfirm --needed inkscape
-sudo pacman -S --noconfirm --needed insync
 sudo pacman -S --noconfirm --needed logrotate
 sudo pacman -S --noconfirm --needed lolcat
 sudo pacman -S --noconfirm --needed lsb-release
 sudo pacman -S --noconfirm --needed lshw
 sudo pacman -S --noconfirm --needed man-db
 sudo pacman -S --noconfirm --needed man-pages
+sudo pacman -S --noconfirm --needed nano
 sudo pacman -S --noconfirm --needed plocate
 sudo pacman -S --noconfirm --needed meld
-sudo pacman -S --noconfirm --needed micro
+#sudo pacman -S --noconfirm --needed micro
 sudo pacman -S --noconfirm --needed mintstick
 sudo pacman -S --noconfirm --needed most
 sudo pacman -S --noconfirm --needed namcap
@@ -175,25 +189,22 @@ sudo pacman -S --noconfirm --needed rate-mirrors
 sudo pacman -S --noconfirm --needed ripgrep
 sudo pacman -S --noconfirm --needed rsync
 sudo pacman -S --noconfirm --needed scrot
-sudo pacman -S --noconfirm --needed signal-in-tray
 sudo pacman -S --noconfirm --needed smartmontools
 sudo pacman -S --noconfirm --needed speedtest-cli
-sudo pacman -S --noconfirm --needed spotify
 sudo pacman -S --noconfirm --needed squashfs-tools
 sudo pacman -S --noconfirm --needed sublime-text-4
 sudo pacman -S --noconfirm --needed system-config-printer
-sudo pacman -S --noconfirm --needed telegram-desktop
 sudo pacman -S --noconfirm --needed the_silver_searcher
 sudo pacman -S --noconfirm --needed time
 sudo pacman -S --noconfirm --needed thunar
 sudo pacman -S --noconfirm --needed thunar-archive-plugin
 sudo pacman -S --noconfirm --needed thunar-volman
 sudo pacman -S --noconfirm --needed tree
-sudo pacman -S --noconfirm --needed ttf-bitstream-vera
+#sudo pacman -S --noconfirm --needed ttf-bitstream-vera
 sudo pacman -S --noconfirm --needed ttf-dejavu
 sudo pacman -S --noconfirm --needed ttf-droid
 sudo pacman -S --noconfirm --needed ttf-hack
-sudo pacman -S --noconfirm --needed ttf-inconsolata
+#sudo pacman -S --noconfirm --needed ttf-inconsolata
 sudo pacman -S --noconfirm --needed ttf-liberation
 sudo pacman -S --noconfirm --needed ttf-ms-fonts
 sudo pacman -S --noconfirm --needed ttf-roboto
@@ -205,6 +216,7 @@ sudo pacman -S --noconfirm --needed visual-studio-code-bin
 sudo pacman -S --noconfirm --needed vivaldi
 sudo pacman -S --noconfirm --needed vivaldi-ffmpeg-codecs
 sudo pacman -S --noconfirm --needed vlc
+sudo pacman -S --noconfirm --needed vlc-plugins-all
 sudo pacman -S --noconfirm --needed wd719x-firmware
 sudo pacman -S --noconfirm --needed wget
 sudo pacman -S --noconfirm --needed xdg-user-dirs
@@ -225,6 +237,19 @@ if [ ! -f /usr/share/xsessions/plasmax11.desktop ]; then
   sudo pacman -S --noconfirm --needed qt5ct
   sudo pacman -S --noconfirm --needed kvantum-qt5
 fi
+
+if [ -f /usr/share/xsessions/plasmax11.desktop ]; then
+  remove_if_installed qt5ct
+  remove_if_installed kvantum-qt5
+fi
+
+#sudo pacman -S --noconfirm --needed discord
+#sudo pacman -S --noconfirm --needed dropbox
+sudo pacman -S --noconfirm --needed hw-probe
+sudo pacman -S --noconfirm --needed insync
+sudo pacman -S --noconfirm --needed signal-in-tray
+sudo pacman -S --noconfirm --needed spotify
+sudo pacman -S --noconfirm --needed telegram-desktop
 
 tput setaf 6
 echo "##############################################################"

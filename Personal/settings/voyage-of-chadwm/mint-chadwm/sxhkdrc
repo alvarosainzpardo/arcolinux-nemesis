@@ -58,9 +58,9 @@ super + F12
 # SUPER + ... KEYS
 #################################################################
 
-#Atom
+#Code
 super + e
-    atom
+    code
 
 #Browser
 super + w
@@ -76,7 +76,7 @@ super + x
 
 #powermenu
 super + shift + x
-    arcolinux-powermenu
+    edu-powermenu
 
 #nlogout
 alt + shift + x
@@ -144,14 +144,6 @@ super + shift + s
 #################################################################
 # CONTROL + ALT KEYS
 #################################################################
-
-#arcolinux-application-glade
-ctrl + alt + h
-     arcolinux-app-glade
-
-#arcolinux-welcome-app
-ctrl + alt + w
-     arcolinux-welcome-app
 
 #archlinux-tweak-tool
 ctrl + alt + e

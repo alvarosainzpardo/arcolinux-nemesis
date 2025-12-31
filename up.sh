@@ -1,10 +1,14 @@
 #!/bin/bash
-#set -e
-##################################################################################################################################
+set -uo pipefail  # Do not use set -e, we want to continue on error
+##################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
 # Youtube   : https://youtube.com/erikdubois
-##################################################################################################################################
+# Github    : https://github.com/erikdubois
+# Github    : https://github.com/kirodubes
+# Github    : https://github.com/buildra
+# SF        : https://sourceforge.net/projects/kiro/files/
+##################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
 #
@@ -18,6 +22,9 @@
 #tput setaf 6 = cyan
 #tput setaf 7 = gray
 #tput setaf 8 = light blue
+
+#end colors
+#tput sgr0
 ##################################################################################################################################
 
 # reset - commit your changes or stash them before you merge
@@ -32,22 +39,12 @@
 
 workdir=$(pwd)
 
-rm /home/erik/DATA/arcolinux-nemesis/packages/*
-
-pkgdir=/var/cache/pacman/pkg
-target=/home/erik/DATA/arcolinux-nemesis/packages
-targetrepo=/home/erik/DATA/EDU/nemesis_repo/x86_64
-
-echo "## Copying chaotic packages"
-
-cp -v "$pkgdir"/chaotic-keyring*-*-*.pkg.tar.zst "$target"/
-cp -v "$pkgdir"/chaotic-mirrorlist*-*-*.pkg.tar.zst "$target"/
-
-cp -v "$pkgdir"/chaotic-keyring*-*-*.pkg.tar.zst "$targetrepo"/
-cp -v "$pkgdir"/chaotic-mirrorlist*-*-*.pkg.tar.zst "$targetrepo"/
+./chaotic
 
 rm $workdir/mirrorlist
 touch $workdir/mirrorlist
+
+echo
 echo "## Best Arch Linux servers worldwide from arcolinux-nemesis
 
 Server = https://mirror.osbeck.com/archlinux/\$repo/os/\$arch
@@ -65,11 +62,13 @@ sed -i "s/#Server/Server/g" $workdir/mirrorlist
 git add --all .
 
 # Give a comment to the commit if you want
+echo
 echo "####################################"
 echo "Write your commit comment!"
 echo "####################################"
+echo
 
-read input
+input="update"
 
 # Committing to the local repository with a message containing the time details and commit text
 
@@ -77,18 +76,8 @@ git commit -m "$input"
 
 # Push the local files to github
 
-if grep -q main .git/config; then
-	echo "Using main"
-		git push -u origin main
-fi
-
-if grep -q master .git/config; then
-	echo "Using master"
-		git push -u origin master
-fi
-
-# force the matter
-# git push -u origin master --force
+branch=$(git rev-parse --abbrev-ref HEAD)
+git push -u origin "$branch"
 
 echo
 tput setaf 6

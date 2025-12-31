@@ -1,10 +1,14 @@
 #!/bin/bash
-#set -e
-##################################################################################################################################
+set -uo pipefail  # Do not use set -e, we want to continue on error
+##################################################################################################################
 # Author    : Erik Dubois
 # Website   : https://www.erikdubois.be
 # Youtube   : https://youtube.com/erikdubois
-##################################################################################################################################
+# Github    : https://github.com/erikdubois
+# Github    : https://github.com/kirodubes
+# Github    : https://github.com/buildra
+# SF        : https://sourceforge.net/projects/kiro/files/
+##################################################################################################################
 #
 #   DO NOT JUST RUN THIS. EXAMINE AND JUDGE. RUN AT YOUR OWN RISK.
 #
@@ -22,8 +26,6 @@
 #end colors
 #tput sgr0
 ##################################################################################################################################
-
-set -uo pipefail  # Do not use set -e, we want to continue on error
 
 # Trap all ERR conditions and call the handler
 trap 'on_error $LINENO "$BASH_COMMAND"' ERR
@@ -222,26 +224,36 @@ echo
 echo "/etc/pacman.conf.edu is there to have a backup"
 echo
 
-echo
-tput setaf 3
-echo "########################################################################"
-echo "######## Removing the Arch Linux Tweak Tool"
-echo "######## Removing arcolinux-keyring"
-echo "######## Removing arcolinux-mirrorlist-git"
-echo "######## if present"
-echo "########################################################################"
-tput sgr0
-echo
+# when NOT on KIRO - remove
+if ! grep -q "kiro" /etc/os-release; then
 
-for pkg in \
-  archlinux-tweak-tool-git \
-  archlinux-tweak-tool-dev-git \
-  arcolinux-keyring \
-  arcolinux-mirrorlist-git; do
-  if pacman -Q "$pkg" &>/dev/null; then
-    sudo pacman -R --noconfirm "$pkg"
-  fi
-done
+  echo
+  tput setaf 3
+  echo "##############################################################"
+  echo "############### Removing ArcoLinux software"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+    for pkg in \
+      archlinux-tweak-tool-git \
+      archlinux-tweak-tool-dev-git \
+      arcolinux-keyring \
+      arcolinux-mirrorlist-git; do
+      if pacman -Q "$pkg" &>/dev/null; then
+        sudo pacman -R --noconfirm "$pkg"
+      fi
+    done
+
+  echo
+  tput setaf 3
+  echo "##############################################################"
+  echo "################### Software removed"
+  echo "##############################################################"
+  tput sgr0
+  echo
+
+fi
 
 echo
 tput setaf 2
@@ -337,6 +349,7 @@ cd $installed_dir/Personal
 sh 900-*
 sh 910-*
 sh 920-*
+sh 930-*
 
 
 
@@ -355,6 +368,7 @@ sh 970-biglinux*
 sh 970-rebornos*
 sh 970-archbang*
 sh 970-manjaro*
+sh 970-omarchy*
 
 #has to be last - they are all Arch
 sh 970-arch.sh

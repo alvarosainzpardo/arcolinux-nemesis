@@ -89,12 +89,11 @@ func_install_chadwm() {
     autorandr
     dash
     dmenu
-    eww
     feh
     gcc
     gvfs
     lolcat
-    lxappearance-gtk3
+    lxappearance
     make
     picom-git
     polkit-gnome

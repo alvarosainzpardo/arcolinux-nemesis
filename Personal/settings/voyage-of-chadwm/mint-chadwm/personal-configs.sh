@@ -136,7 +136,7 @@ fi
 # getting archlinux-logout
 cd $installed_dir
 sudo rm -rf /tmp/archlinux-logout
-git clone https://github.com/arcolinux/archlinux-logout /tmp/archlinux-logout
+git clone https://github.com/erikdubois/archlinux-logout /tmp/archlinux-logout
 sudo cp -r /tmp/archlinux-logout/etc/* /etc
 sudo cp -r /tmp/archlinux-logout/usr/* /usr
 sudo rm -r /usr/share/archlinux-betterlockscreen
@@ -157,9 +157,9 @@ hblock
 echo
 
 # Arc Dawn
-sudo rm -rf /tmp/arcolinux-arc-dawn
-git clone https://github.com/arcolinux/arcolinux-arc-dawn  /tmp/arcolinux-arc-dawn
-cd /tmp/arcolinux-arc-dawn/usr/share/themes
+sudo rm -rf /tmp/edu-arc-dawn
+git clone https://github.com/erikdubois/edu-arc-dawn  /tmp/edu-arc-dawn
+cd /tmp/edu-arc-dawn/usr/share/themes
 cp -r * ~/.themes
 echo
 

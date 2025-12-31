@@ -36,80 +36,29 @@ fi
 
 ##################################################################################################################################
 
-echo
-tput setaf 2
-echo "########################################################################"
-echo "################### install folder - Software to install"
-echo "########################################################################"
-tput sgr0
-echo
-if ! grep -q "artix" /etc/os-release; then
-	result=$(systemd-detect-virt)
-
-	if [ $result = "none" ];then
+# when on omarchy
+if [[ -f /etc/plymouth/plymouthd.conf ]]; then
+	if grep -q "omarchy" /etc/plymouth/plymouthd.conf; then
 
 		echo
 		tput setaf 2
 		echo "########################################################################"
-		echo "####### Installing VirtualBox"
+		echo "############### We are on an OMARCHY iso"
 		echo "########################################################################"
-		tput sgr0
-		echo	
-
-		sh install/install-virtualbox-for-linux.sh	
-
-	else
-
-
 		echo
-		tput setaf 3
-		echo "########################################################################"
-		echo "### You are on a virtual machine - skipping VirtualBox"
-		echo "########################################################################"
 		tput sgr0
-		echo
 
+		# getting config
+		folder="/tmp/omarchy"
+		if [ -d "$folder" ]; then
+		    sudo rm -r "$folder"
+		fi
+		git clone https://github.com/erikdubois/omarchy /tmp/omarchy
+		cp -v /tmp/omarchy/config/hypr/bindings.conf ~/.config/hypr/bindings.conf
+		cp -v /tmp/omarchy/config/hypr/input.conf ~/.config/hypr/input.conf
+		cp -v /tmp/omarchy/config/hypr/looknfeel.conf ~/.config/hypr/looknfeel.conf
+		cp -v /tmp/omarchy/config/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
 	fi
-fi
-
-echo
-tput setaf 2
-echo "########################################################################"
-echo "################### Build from install folder"
-echo "########################################################################"
-tput sgr0
-echo
-
-if ! pacman -Qi opera &>/dev/null; then
-    yay -S opera --noconfirm
-else
-    echo "Opera is already installed."
-fi
-
-# if ! pacman -Qi opera-ffmpeg-codecs-bin &>/dev/null; then
-#     yay -S opera-ffmpeg-codecs-bin --noconfirm
-# else
-#     echo "opera-ffmpeg-codecs-bin is already installed."
-# fi
-
-echo
-tput setaf 2
-echo "########################################################################"
-echo "################### Building pamac-aur"
-echo "########################################################################"
-tput sgr0
-echo
-
-if ! pacman -Qi libpamac-aur &>/dev/null; then
-    yay -S libpamac-aur --noconfirm
-else
-    echo "libpamac-aur is already installed."
-fi
-
-if ! pacman -Qi pamac-aur &>/dev/null; then
-    yay -S pamac-aur --noconfirm
-else
-    echo "pamac-aur is already installed."
 fi
 
 echo

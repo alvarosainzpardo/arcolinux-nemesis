@@ -36,40 +36,8 @@ fi
 
 ##################################################################################################################################
 
-echo
-tput setaf 3
-echo "########################################################################"
-echo "################### Ananicy"
-echo "########################################################################"
-tput sgr0
-echo
-
-func_install() {
-    if pacman -Qi $1 &> /dev/null; then
-        tput setaf 2
-        echo "#######################################################################################"
-        echo "################## The package "$1" is already installed"
-        echo "#######################################################################################"
-        echo
-        tput sgr0
-    else
-        tput setaf 3
-        echo "#######################################################################################"
-        echo "##################  Installing package "  $1
-        echo "#######################################################################################"
-        echo
-        tput sgr0
-        sudo pacman -S --noconfirm --needed $1
-    fi
-}
-
-
-installed_dir=$(dirname $(readlink -f $(basename `pwd`)))
-
-sudo pacman -S --noconfirm --needed ananicy-cpp
-sudo pacman -S --noconfirm --needed cachyos-ananicy-rules 
-
-sudo systemctl enable --now ananicy-cpp.service
+# also packages for printing to pdf
+sudo pacman -S wps-office wps-office-fonts wps-office-mime libtiff5 libpng12
 
 echo
 tput setaf 6
